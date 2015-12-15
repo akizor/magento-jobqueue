@@ -11,19 +11,19 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
         $this->setDefaultDir('desc');
         $this->setSaveParametersInSession(true);
     }
-     
+
     protected function _getCollectionClass()
     {
         return 'jobqueue/job_collection';
     }
-     
+
     protected function _prepareCollection()
     {
         $collection = Mage::getModel('jobqueue/job')->getCollection();
         //$collection->getSelect()->columns('(`main_table`.`failed_at` is null) as status');
-        $collection->getSelect()->columns("(case when main_table.locked_at is not null then 2 when main_table.failed_at is null then 1 else 0 end) as status");        
+        $collection->getSelect()->columns("(case when main_table.finished = 1 then 3 when main_table.locked_at is not null then 2 when main_table.failed_at is null then 1 else 0 end) as status");
         $this->setCollection($collection);
-         
+
         return parent::_prepareCollection();
     }
 
@@ -44,7 +44,7 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
         return $this;
     }
 
-     
+
     protected function _prepareColumns()
     {
         $this->addColumn('id',
@@ -63,17 +63,17 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 'index'     => 'store_id',
                 'type'      => 'store',
                 'store_view'=> true,
-                'width' => '200px',                
+                'width' => '200px',
             ));
-        }        
-         
+        }
+
         $this->addColumn('name',
             array(
                 'header'=> $this->__('Name'),
                 'index' => 'name'
             )
         );
-         
+
         $this->addColumn('queue',
             array(
                 'header'=> $this->__('Queue'),
@@ -81,7 +81,16 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 'align' => 'center',
                 'width' => '80px',
             )
-        ); 
+        );
+
+        $this->addColumn('user_id', array(
+            'header'    => Mage::helper('contract')->__('User'),
+            'align'     => 'left',
+            'width'     => '130px',
+            'index'     => 'user_id',
+            'type'      => 'options',
+            'options'   => Mage::getSingleton('artcore/user')->getOptionArray(),
+        ));
 
         $this->addColumn('created_at',
             array(
@@ -91,7 +100,7 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 'width' => '175px',
                 'align' => 'center',
             )
-        );         
+        );
 
         $this->addColumn('run_at',
             array(
@@ -100,7 +109,7 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 'type'  => 'datetime',
                 'align' => 'center',
             )
-        );             
+        );
 
         $this->addColumn('attempts',
             array(
@@ -110,18 +119,18 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 'align' => 'center',
                 'width' => '100px',
             )
-        );  
+        );
 
         $this->addColumn('status',
             array(
                 'header'=> $this->__('Status'),
                 'index' => 'status',
                 'type'  => 'options',
-                'options'   => array('1'=>'Pending', '2'=>'In Process', '0'=>'Failed'),
+                'options'   => array('1'=>'1. Pending', '2'=>'2. In Process', '3' => '3. Finished', '0'=>'0. Failed'),
                 'align' => 'center',
                 'width' => '80px',
             )
-        );                  
+        );
 
         $this->addColumn('action',
             array(
@@ -138,10 +147,10 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
                 ),
                 'filter'    => false,
                 'sortable'  => false,
-                'align' => 'center',                
+                'align' => 'center',
             )
-        );                
-         
+        );
+
         return parent::_prepareColumns();
     }
 
@@ -166,13 +175,13 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
              'label'    => $this->__('Delete Job'),
              'url'      => $this->getUrl('*/*/massDeleteJob'),
              'confirm'  => $this->__('Are you sure?')
-        ));        
+        ));
 
         return $this;
-    }    
-     
+    }
+
     public function getRowUrl($row)
     {
         return $this->getUrl('*/*/view', array('id' => $row->getId()));
-    }   
+    }
 }

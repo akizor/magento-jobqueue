@@ -59,7 +59,9 @@ class Jowens_JobQueue_Block_Adminhtml_Job_View extends Mage_Adminhtml_Block_Widg
         $this->setRunAtHtml($this->escapeHtml($runAt));
 
         $status = $this->__("Pending");
-        if( $this->_job->getFailedAt()) {
+        if($this->_job->getFinished() && $this->_job->getFinished() == '1'){
+          $status = $this->__('Finished');
+        } else if( $this->_job->getFailedAt()) {
             $status = $this->__('Failed');
         } else if($this->_job->getLockedAt()) {
              $status = $this->__('In Process');

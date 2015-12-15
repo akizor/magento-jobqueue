@@ -2,9 +2,9 @@
 <config>
     <modules>
         <Jowens_JobQueue>
-            <version>0.5.0</version>
+            <version>0.6.0</version>
         </Jowens_JobQueue>
-    </modules>	
+    </modules>
     <global>
     	<models>
             <jobqueue>
@@ -21,14 +21,14 @@
             </jobqueue_resource>
     	</models>
         <blocks>
-            <jobqueue>            
+            <jobqueue>
                 <class>Jowens_JobQueue_Block</class>
             </jobqueue>
-        </blocks>        
+        </blocks>
     	<helpers>
 	    <jobqueue>
 	        <class>Jowens_JobQueue_Helper</class>
-	    </jobqueue>    		
+	    </jobqueue>
     	</helpers>
         <resources>
             <jobqueue_setup>
@@ -37,7 +37,7 @@
                     <class>Jowens_JobQueue_Model_Resource_Setup</class>
                 </setup>
             </jobqueue_setup>
-        </resources>    	
+        </resources>
     </global>
     <frontend>
         <routers>
@@ -48,8 +48,8 @@
                     <frontName>jobqueue</frontName>
                 </args>
             </jowens_jobqueue>
-        </routers>  
-    </frontend>  
+        </routers>
+    </frontend>
     <admin>
         <routers>
             <adminhtml>
@@ -60,7 +60,7 @@
                 </args>
             </adminhtml>
         </routers>
-    </admin>  
+    </admin>
     <adminhtml>
         <layout>
             <updates>
@@ -69,7 +69,7 @@
                 </jowens_jobqueue>
             </updates>
         </layout>
-    </adminhtml>      
+    </adminhtml>
     <crontab>
         <jobs>
             <jobqueue_default>
@@ -84,12 +84,12 @@
     </crontab>
     <default>
         <jobqueue>
-            <config> 
-                <enabled>1</enabled>               
+            <config>
+                <enabled>1</enabled>
                 <cron_expr>*/5 * * * *</cron_expr>
                 <max_attempts>10</max_attempts>
                 <queue>default</queue>
             </config>
         </jobqueue>
-    </default>    
+    </default>
 </config>

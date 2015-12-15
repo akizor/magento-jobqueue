@@ -1,6 +1,6 @@
 <?php
 
-class Jowens_JobQueue_Model_Job extends Mage_Core_Model_Abstract 
+class Jowens_JobQueue_Model_Job extends Mage_Core_Model_Abstract
 {
     protected function _construct()
     {
@@ -12,12 +12,14 @@ class Jowens_JobQueue_Model_Job extends Mage_Core_Model_Abstract
         $this->setRunAt(null);
         $this->setAttempts(0);
         $this->setError(null);
+        $this->setFinished(0);
         $this->save();
     }
 
     public function cancel() {
         $this->setFailedAt(Mage::getModel('core/date')->timestamp(time()));
         $this->setError(Mage::helper('jobqueue')->__("Job canceled"));
+        $this->setFinished(1);
         $this->save();
-    }    
+    }
 }
