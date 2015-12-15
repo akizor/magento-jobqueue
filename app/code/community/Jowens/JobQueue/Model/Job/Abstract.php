@@ -31,11 +31,11 @@ abstract class Jowens_JobQueue_Model_Job_Abstract extends Mage_Core_Model_Abstra
     $job->setCreatedAt(now());
 
     //aki
-    $job->setTypeQueue($this->getTypeQueue());
+    /* $job->setTypeQueue($this->getTypeQueue());
     $job->setTypeId($this->getTypeId());
-    $job->setUserId(Mage::getSingleton('admin/session')->getUser()->getId());
+    $job->setUserId(Mage::getSingleton('admin/session')->getUser()->getId()); */
     //end aki
-    
+
     $job->save();
   }
 
