@@ -83,14 +83,6 @@ class Jowens_JobQueue_Block_Adminhtml_Queue_Grid extends Mage_Adminhtml_Block_Wi
             )
         );
 
-        $this->addColumn('user_id', array(
-            'header'    => Mage::helper('contract')->__('User'),
-            'align'     => 'left',
-            'width'     => '130px',
-            'index'     => 'user_id',
-            'type'      => 'options',
-            'options'   => Mage::getSingleton('artcore/user')->getOptionArray(),
-        ));
 
         $this->addColumn('created_at',
             array(
